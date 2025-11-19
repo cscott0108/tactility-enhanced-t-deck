@@ -11,15 +11,17 @@ Tactility Enhanced is a custom distribution of [Tactility OS](https://github.com
 This build enables **full T-Deck hardware utilization** that stock Tactility doesn't provide:
 
 #### ✅ Working Features:
-- **USB Serial JTAG** - Bidirectional relay support (Rx + Tx)
-- **UART Relay App** - Monitor and control serial devices with USB/SD logging
-- **Firmware exports** - Extended symbol table for advanced app development
-- **GPS (GNSS)** - Built-in receiver supported
-- **I2C** - Stock I2C bus support
+**USB Serial JTAG** - Bidirectional relay support (Rx + Tx)
+**UART Relay App** - Monitor and control serial devices with USB/SD logging
+**Firmware exports** - Extended symbol table for advanced app development
+**GPS (GNSS)** - Built-in receiver supported
+**I2C** - Stock I2C bus support
+**Keyboard backlight control** - Brightness, timeout & wake-on-keypress
+
+#### 🚧 Partial / In Progress:
+**Trackball wake support** - Wakes display/backlight (navigation still in progress)
 
 #### 🚧 In Development:
-- **Keyboard backlight control** - Adjust brightness programmatically
-- **Trackball support** - Full navigation integration
 - **WiFi file server** - Upload apps and files wirelessly
 - **Web-based serial terminal** - Access UART over WiFi
 - **4G LTE support** - Cellular connectivity
@@ -83,6 +85,9 @@ esptool.py --port COM3 write_flash 0x0 Tactility-Enhanced.bin
 4. **First boot**
 	- Configure WiFi in Settings
 	- Launch UartRelay from app list
+	- Adjust keyboard backlight & timeout: Settings > Keyboard
+	- (Optional) Change idle settings reload interval: Settings > Development
+	- Test wake: let display/backlight timeout, press any key → both wake
 
 ### Building from Source
 
@@ -103,12 +108,12 @@ python3 tactility.py build esp32s3
 ## Roadmap
 
 ### Phase 1: Core Hardware ✅
-- [x] USB Serial JTAG bidirectional
-- [x] UART relay functionality
-- [x] SD card logging
-- [x] GPS (GNSS)
-- [ ] Keyboard backlight
-- [ ] Trackball navigation
+* [x] USB Serial JTAG bidirectional
+* [x] UART relay functionality
+* [x] SD card logging
+* [x] GPS (GNSS)
+* [x] Keyboard backlight (brightness + timeout + wake)
+* [ ] Trackball navigation (wake implemented; navigation WIP)
 
 ### Phase 2: Connectivity 🚧
 - [ ] WiFi file server
@@ -138,8 +143,8 @@ Contributions are welcome! This project aims to make the T-Deck reach its full p
 | Feature | Stock Tactility | This Fork |
 |---------|----------------|-----------|
 | USB Bidirectional | ❌ | ✅ |
-| Keyboard Backlight | ❌ | 🚧 |
-| Trackball Support | ❌ | 🚧 |
+| Keyboard Backlight | ❌ | ✅ |
+| Trackball Support | ❌ | 🚧 (wake only) |
 | 4G LTE | ❌ | 📋 |
 | GPS | ✅ | ✅ |
 | LoRa | ❌ | 📋 |
@@ -149,6 +154,41 @@ Contributions are welcome! This project aims to make the T-Deck reach its full p
 | I2C | ✅ | ✅ |
 
 Legend: ✅ Working | 🚧 In Progress | 📋 Planned | ❌ Not Available
+
+## Recent Enhancements
+
+**Unified Idle Management**
+- Display + keyboard backlight idle logic merged into one service (reduced polling overhead)
+- Configurable settings reload interval (default 10s) via Settings > Development
+
+**Keyboard Backlight Improvements**
+- Settings > Keyboard: enable, brightness, timeout enable, timeout value (5s–10min)
+- Timeout & preferences persisted (NVS)
+- Wake-on-keypress immediately restores display + keyboard backlights
+
+**Stability & Boot Reliability**
+- Deferred I2C initialization (keyboard & trackball) resolves early heap corruption
+- NTP time persisted/restored before SNTP sync
+
+**Developer Quality of Life**
+- Idle reload interval user-adjustable (prompts reboot when changed)
+- Reduced duplicated timers by consolidating services
+
+## Troubleshooting
+
+| Symptom | Resolution |
+|---------|------------|
+| Keyboard press doesn't wake display | Ensure timeout feature enabled; try a non-modifier key |
+| Timeout value not saved | Leave Keyboard settings screen to trigger save |
+| Idle interval not applied | Reboot after changing in Development settings |
+| Early boot panic | Update to latest build (includes deferred I2C init) |
+
+## Upgrading
+
+1. Flash new firmware
+2. (Optional) Clear outdated `/data/settings/` entries if behavior is inconsistent
+3. Re-set keyboard timeout (Settings > Keyboard)
+4. Adjust idle reload interval (Settings > Development) if needed
 
 ## Credits
 
