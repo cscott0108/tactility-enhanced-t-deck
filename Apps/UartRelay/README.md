@@ -14,6 +14,8 @@ This build enables **full T-Deck hardware utilization** that stock Tactility doe
 - **USB Serial JTAG** - Bidirectional relay support (Rx + Tx)
 - **UART Relay App** - Monitor and control serial devices with USB/SD logging
 - **Firmware exports** - Extended symbol table for advanced app development
+- **GPS (GNSS)** - Built-in receiver supported
+- **I2C** - Stock I2C bus support
 
 #### 🚧 In Development:
 - **Keyboard backlight control** - Adjust brightness programmatically
@@ -21,7 +23,6 @@ This build enables **full T-Deck hardware utilization** that stock Tactility doe
 - **WiFi file server** - Upload apps and files wirelessly
 - **Web-based serial terminal** - Access UART over WiFi
 - **4G LTE support** - Cellular connectivity
-- **GPS integration** - Location services and geo-tagged logging
 - **LoRa transceiver** - Long-range communication
 
 ### Key Applications
@@ -102,6 +103,7 @@ python3 tactility.py build esp32s3
 - [x] USB Serial JTAG bidirectional
 - [x] UART relay functionality
 - [x] SD card logging
+- [x] GPS (GNSS)
 - [ ] Keyboard backlight
 - [ ] Trackball navigation
 
@@ -109,7 +111,6 @@ python3 tactility.py build esp32s3
 - [ ] WiFi file server
 - [ ] Web-based serial terminal
 - [ ] 4G LTE module support
-- [ ] GPS location services
 - [ ] LoRa transceiver
 
 ### Phase 3: Integration 📋
@@ -137,11 +138,12 @@ Contributions are welcome! This project aims to make the T-Deck reach its full p
 | Keyboard Backlight | ❌ | 🚧 |
 | Trackball Support | ❌ | 🚧 |
 | 4G LTE | ❌ | 📋 |
-| GPS | ❌ | 📋 |
+| GPS | ✅ | ✅ |
 | LoRa | ❌ | 📋 |
 | WiFi File Server | ❌ | 🚧 |
 | Web Serial Terminal | ❌ | 📋 |
 | UartRelay App | ❌ | ✅ |
+| I2C | ✅ | ✅ |
 
 Legend: ✅ Working | 🚧 In Progress | 📋 Planned | ❌ Not Available
 
