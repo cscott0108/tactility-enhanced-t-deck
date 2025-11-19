@@ -1,3 +1,8 @@
+# Tactility Enhanced for T-Deck
+
+- Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/releases
+- UartRelay app: Apps/UartRelay/README.md
+
 ## Overview
 
 Tactility is an operating system that focuses on the ESP32 microcontroller family.
