@@ -1,17 +1,31 @@
-# SD Card App Layout
+# Prebuilt Apps for Tactility Enhanced
 
-This folder contains ready-to-copy app folders for Tactility.
+**Ready-to-copy app folders optimized for LilyGO T-Deck.**
 
-Quick use:
-- Copy the folder `one.tactiity.uartrelay` to the SD card at `/app/`
-- Eject the SD card safely, insert it in the T-Deck, and reboot if needed
-- Launch the app from the Tactility app list
+This directory contains prebuilt apps for Tactility Enhanced, packaged in the exact SD card folder structure the firmware expects. No build tools required—just copy and run.
 
-Notes:
-- The ELF binary is inside `app/one.tactiity.uartrelay/elf/esp32s3.elf`
-- The `manifest.properties` file belongs at `app/one.tactiity.uartrelay/`
-- Do not rename the `one.tactiity.uartrelay` folder
-- For manual installs, you can copy only the `.elf` directly to `/app/` but using the full folder is preferred
+## Featured App: UartRelay
+
+**The flagship app that sparked this firmware fork.** UartRelay transforms your T-Deck into a professional serial debugging tool with bidirectional USB Serial JTAG relay, SD logging, and field-ready portability.
+
+## Quick Install
+
+1. Insert your SD card into your computer
+2. Copy the folder `one.tactiity.uartrelay` to `/app/` on the SD card root
+3. Safely eject the SD card and insert it into your T-Deck
+4. Power on or reboot the device
+5. Launch UartRelay from the Tactility app list
+
+## Technical Details
+
+**Folder structure:**
+- `one.tactiity.uartrelay/elf/esp32s3.elf` — Compiled app binary for ESP32-S3
+- `one.tactiity.uartrelay/manifest.properties` — App metadata and configuration
+
+**Important:**
+- Do not rename the `one.tactiity.uartrelay` folder—Tactility matches apps by this identifier
+- The folder must be placed at `/app/one.tactiity.uartrelay` on the SD card root
+- Manual ELF-only installs work but lose metadata; use the full folder for best results
 
 Troubleshooting:
 - If the app does not appear, ensure the path is exactly `/app/one.tactiity.uartrelay` with correct spelling
