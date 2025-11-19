@@ -1,161 +1,52 @@
-# Tactility Enhanced for T-Deck
+# UartRelay
 
-**Full hardware support for LilyGO T-Deck with enhanced features**
+Bidirectional UART ↔ USB relay app for Tactility Enhanced on LilyGO T-Deck.
 
-## Overview
+## Features
 
-Tactility Enhanced is a custom distribution of [Tactility OS](https://github.com/ByteWelder/Tactility) specifically optimized for the LilyGO T-Deck, unlocking hardware features not available in the stock firmware.
-
-### What Makes This Different?
-
-This build enables **full T-Deck hardware utilization** that stock Tactility doesn't provide:
-
-#### ✅ Working Features:
-- **USB Serial JTAG** - Bidirectional relay support (Rx + Tx)
-- **UART Relay App** - Monitor and control serial devices with USB/SD logging
-- **Firmware exports** - Extended symbol table for advanced app development
-- **GPS (GNSS)** - Built-in receiver supported
-- **I2C** - Stock I2C bus support
-
-#### 🚧 In Development:
-- **Keyboard backlight control** - Adjust brightness programmatically
-- **Trackball support** - Full navigation integration
-- **WiFi file server** - Upload apps and files wirelessly
-- **Web-based serial terminal** - Access UART over WiFi
-- **4G LTE support** - Cellular connectivity
-- **LoRa transceiver** - Long-range communication
-
-### Key Applications
-
-**UartRelay** - Flagship app for this distribution
-- Bidirectional UART relay (device ↔ USB/WiFi)
+- USB Serial JTAG relay (Rx/Tx)
+- UART device monitoring and control
 - SD card logging with timestamps
-- Real-time serial monitoring
-- Configurable baud rates and protocols
-- Future: GPS-tagged logs, remote access via 4G
+- Configurable baud rates and settings
+- Local echo, batching, and newline flush for responsiveness
 
-![screenshot of UartRelay app](Documentation/pics/screenshot-UartRelay.png)
+![screenshot of UartRelay app](../../Documentation/pics/screenshot-UartRelay.png)
 
-## Why This Fork Exists
+## Download & Install
 
-The LilyGO T-Deck is packed with features (WiFi, 4G, GPS, LoRa, trackball, backlit keyboard) that aren't fully utilized by existing firmware options. This project aims to:
+- Prebuilt: download `UartRelay.elf` from project Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/releases
+- Copy to SD card: place `.elf` in `/sdcard/app/`
+- Launch from the Tactility app list on the device
 
-1. **Enable all hardware** - Every feature should work
-2. **Professional tools** - Advanced debugging and development capabilities
-3. **Field deployment** - Reliable remote access and monitoring
-4. **Developer friendly** - Extended API for custom apps
+## Usage
 
-## Hardware Support
+1. Open UartRelay on the T-Deck
+2. Select UART port and baud rate
+3. Toggle the relay to start forwarding between UART and USB Serial JTAG
+4. Optionally enable SD logging for session capture
+5. Press stop to end the relay (cleanup is automatic)
 
-**Fully Supported:**
-- LilyGO T-Deck (all variants)
-- ESP32-S3 with 8MB+ PSRAM
+Tips:
+- Newline-triggered flush improves small-packet responsiveness
+- Local echo can be toggled for interactive sessions
 
-**Tested On:**
-- LilyGO T-Deck v1.0
+## Build From Source
 
-## Installation
-
-### Prerequisites
-- LilyGO T-Deck device
-- USB-C cable
-- SD card (recommended: 8GB+)
-
-### Quick Start
-
-1. **Download latest release**
-   - Firmware: `Tactility-Enhanced-[version].bin`
-   - Apps: `UartRelay.elf`
-   - Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/releases
-
-2. **Flash firmware** (Windows/Linux/Mac)
 ```bash
-esptool.py --port COM3 write_flash 0x0 Tactility-Enhanced.bin
-```
-
-3. **Install apps**
-   - Copy `.elf` files to SD card: `/sdcard/app/`
-   - Or use built-in App Hub
-
-4. **First boot**
-   - Configure WiFi in Settings
-   - Launch UartRelay from app list
-
-### Building from Source
-
-See [BUILDING.md](BUILDING.md) for detailed instructions.
-```bash
-# Clone repository
-git clone https://github.com/cscott0108/tactility-enhanced-t-deck
-cd tactility-enhanced-t-deck
-
-# Build firmware
-idf.py build
-
-# Build apps
 cd Apps/UartRelay
 python3 tactility.py build esp32s3
 ```
 
-## Roadmap
+The build outputs an ELF you can copy to `/sdcard/app/`.
 
-### Phase 1: Core Hardware ✅
-- [x] USB Serial JTAG bidirectional
-- [x] UART relay functionality
-- [x] SD card logging
-- [x] GPS (GNSS)
-- [ ] Keyboard backlight
-- [ ] Trackball navigation
+## Troubleshooting
 
-### Phase 2: Connectivity 🚧
-- [ ] WiFi file server
-- [ ] Web-based serial terminal
-- [ ] 4G LTE module support
-- [ ] LoRa transceiver
-
-### Phase 3: Integration 📋
-- [ ] GPS-tagged UART logs
-- [ ] Remote UART access (WiFi/4G)
-- [ ] LoRa UART bridge
-- [ ] Web dashboard
-- [ ] MQTT integration
-
-## Contributing
-
-Contributions are welcome! This project aims to make the T-Deck reach its full potential.
-
-**Areas where help is needed:**
-- Testing on different T-Deck variants
-- Documentation improvements
-- New app development
-- Hardware feature implementation
-
-## Differences from Stock Tactility
-
-| Feature | Stock Tactility | This Fork |
-|---------|----------------|-----------|
-| USB Bidirectional | ❌ | ✅ |
-| Keyboard Backlight | ❌ | 🚧 |
-| Trackball Support | ❌ | 🚧 |
-| 4G LTE | ❌ | 📋 |
-| GPS | ✅ | ✅ |
-| LoRa | ❌ | 📋 |
-| WiFi File Server | ❌ | 🚧 |
-| Web Serial Terminal | ❌ | 📋 |
-| UartRelay App | ❌ | ✅ |
-| I2C | ✅ | ✅ |
-
-Legend: ✅ Working | 🚧 In Progress | 📋 Planned | ❌ Not Available
-
-## Credits
-
-**Based on [Tactility](https://github.com/ByteWelder/Tactility)** by Ken Van Hoeylandt (ByteWelder)
-
-This is a community-driven fork focused on T-Deck hardware support. We maintain compatibility with the Tactility app ecosystem while extending hardware capabilities.
+- If you see unexpected logs while relaying, update to the latest firmware/app which suppresses console output during relay
+- If SD logs don’t appear, ensure the SD card is present and writable; the app creates/flushes logs periodically
 
 ## License
 
-[GNU General Public License Version 3](LICENSE.md)
+GPLv3 — see repository root `LICENSE.md`.
 
 This project inherits the GPL v3 license from Tactility. All modifications and enhancements are also GPL v3.
 
