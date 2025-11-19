@@ -55,6 +55,7 @@ public:
 class ScopedLock final : public Lock {
 
     const Lock& lockable;
+    mutable bool acquired = false;
 
 public:
 
@@ -63,15 +64,31 @@ public:
     explicit ScopedLock(const Lock& lockable) : lockable(lockable) {}
 
     ~ScopedLock() override {
-        lockable.unlock(); // We don't care whether it succeeded or not
+        if (acquired) {
+            // Best-effort unlock only if we actually acquired it
+            lockable.unlock();
+            acquired = false;
+        }
     }
 
     bool lock(TickType_t timeout) const override {
-        return lockable.lock(timeout);
+        if (lockable.lock(timeout)) {
+            acquired = true;
+            return true;
+        }
+        return false;
     }
 
     bool unlock() const override {
-        return lockable.unlock();
+        if (!acquired) {
+            // Nothing to unlock
+            return true;
+        }
+        bool ok = lockable.unlock();
+        if (ok) {
+            acquired = false;
+        }
+        return ok;
     }
 };
 

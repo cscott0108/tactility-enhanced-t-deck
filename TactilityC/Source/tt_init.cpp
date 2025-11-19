@@ -178,6 +178,7 @@ const esp_elfsym main_symbols[] {
     ESP_ELFSYM_EXPORT(esp_log),
     ESP_ELFSYM_EXPORT(esp_log_write),
     ESP_ELFSYM_EXPORT(esp_log_timestamp),
+    ESP_ELFSYM_EXPORT(esp_log_set_vprintf),
     // Tactility
     ESP_ELFSYM_EXPORT(tt_app_start),
     ESP_ELFSYM_EXPORT(tt_app_start_with_bundle),
