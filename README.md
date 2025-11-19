@@ -66,6 +66,8 @@ The LilyGO T-Deck is packed with features (WiFi, 4G, GPS, LoRa, trackball, backl
 1. **Download latest release**
 	- Firmware: `Tactility-Enhanced-[version].bin`
 	- Apps: `UartRelay.elf`
+	- Direct app ELF: https://raw.githubusercontent.com/cscott0108/tactility-enhanced-t-deck/main/Prebuilt/Apps/UartRelay/UartRelay.elf
+	- SD card layout folder: https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Prebuilt/SDCard/app/one.tactiity.uartrelay
 	- Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/releases
 
 2. **Flash firmware** (Windows/Linux/Mac)

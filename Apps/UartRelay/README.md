@@ -14,9 +14,13 @@ Bidirectional UART ↔ USB relay app for Tactility Enhanced on LilyGO T-Deck.
 
 ## Download & Install
 
-- Prebuilt: download `UartRelay.elf` from project Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Prebuilt/Apps/UartRelay/one.tactility.uartrelay/
-- Copy to SD card: place `.elf` in `/sdcard/app/`
-- Launch from the Tactility app list on the device
+- Prebuilt (direct):
+  - ELF: https://raw.githubusercontent.com/cscott0108/tactility-enhanced-t-deck/main/Prebuilt/Apps/UartRelay/UartRelay.elf
+  - Manifest: https://raw.githubusercontent.com/cscott0108/tactility-enhanced-t-deck/main/Prebuilt/Apps/UartRelay/manifest.properties
+- Releases (alternative): https://github.com/cscott0108/tactility-enhanced-t-deck/releases
+- Source (buildable): https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Apps/UartRelay
+- SD card layout (ready-to-copy): https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Prebuilt/SDCard/app/one.tactiity.uartrelay
+- Install: either copy the folder `one.tactiity.uartrelay` into `/sdcard/app/` (preferred), or copy just the `.elf` to `/sdcard/app/` then launch from the app list
 
 ## Usage
 
