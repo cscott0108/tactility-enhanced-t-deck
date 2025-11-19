@@ -1,14 +1,19 @@
-# UartRelay
+# UartRelay — Flagship App for Tactility Enhanced
 
-Bidirectional UART ↔ USB relay app for Tactility Enhanced on LilyGO T-Deck.
+**The app that started it all.** UartRelay is the reason Tactility Enhanced exists—built to unlock the T-Deck's full USB Serial JTAG potential for professional serial debugging and device monitoring.
+
+## Why UartRelay?
+
+Stock Tactility couldn't expose the ESP32-S3's bidirectional USB Serial JTAG interface to apps. UartRelay needed deep firmware-level access, so we forked Tactility, extended the symbol exports, and built this from the ground up. Now you can turn your T-Deck into a portable UART relay station with USB/SD logging—perfect for field debugging, embedded development, and IoT monitoring.
 
 ## Features
 
-- USB Serial JTAG relay (Rx/Tx)
-- UART device monitoring and control
-- SD card logging with timestamps
-- Configurable baud rates and settings
-- Local echo, batching, and newline flush for responsiveness
+- **Bidirectional USB Serial JTAG relay** — Full Rx/Tx between UART devices and USB host
+- **Real-time device monitoring** — Configurable baud rates, parity, stop bits
+- **SD card session logging** — Timestamped capture with auto-flush for reliability
+- **Performance optimized** — Batching, local echo, newline-triggered flush for responsive terminals
+- **Dynamic log suppression** — Clean relay output without ESP-IDF noise
+- **Portable debugging** — Battery-powered, pocket-sized serial toolkit
 
 ![screenshot of UartRelay app](../../Documentation/pics/screenshot-UartRelay.png)
 
@@ -20,7 +25,7 @@ Bidirectional UART ↔ USB relay app for Tactility Enhanced on LilyGO T-Deck.
 - Releases (alternative): https://github.com/cscott0108/tactility-enhanced-t-deck/releases
 - Source (buildable): https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Apps/UartRelay
 - SD card layout (ready-to-copy): https://github.com/cscott0108/tactility-enhanced-t-deck/tree/main/Prebuilt/SDCard/app/one.tactiity.uartrelay
-- Install: either copy the folder `one.tactiity.uartrelay` into `/sdcard/app/` (preferred), or copy just the `.elf` to `/sdcard/app/` then launch from the app list
+- Install: either copy the folder `one.tactiity.uartrelay` into `/app/` on your SD card (preferred), or copy just the `.elf` to `/app/` then launch from the app list
 
 ## Usage
 
