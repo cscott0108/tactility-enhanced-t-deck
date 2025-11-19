@@ -65,10 +65,11 @@ The LilyGO T-Deck is packed with features (WiFi, 4G, GPS, LoRa, trackball, backl
 1. **Download latest release**
    - Firmware: `Tactility-Enhanced-[version].bin`
    - Apps: `UartRelay.elf`
+   - Releases: https://github.com/cscott0108/tactility-enhanced-t-deck/releases
 
 2. **Flash firmware** (Windows/Linux/Mac)
 ```bash
-   esptool.py --port COM3 write_flash 0x0 Tactility-Enhanced.bin
+esptool.py --port COM3 write_flash 0x0 Tactility-Enhanced.bin
 ```
 
 3. **Install apps**
@@ -84,8 +85,8 @@ The LilyGO T-Deck is packed with features (WiFi, 4G, GPS, LoRa, trackball, backl
 See [BUILDING.md](BUILDING.md) for detailed instructions.
 ```bash
 # Clone repository
-git clone https://github.com/[YourUsername]/Tactility-Enhanced
-cd Tactility-Enhanced
+git clone https://github.com/cscott0108/tactility-enhanced-t-deck
+cd tactility-enhanced-t-deck
 
 # Build firmware
 idf.py build
@@ -158,8 +159,8 @@ This project inherits the GPL v3 license from Tactility. All modifications and e
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/[YourUsername]/Tactility-Enhanced/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/[YourUsername]/Tactility-Enhanced/discussions)
+- **Issues**: [GitHub Issues](https://github.com/cscott0108/tactility-enhanced-t-deck/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/cscott0108/tactility-enhanced-t-deck/discussions)
 - **Original Tactility**: [https://tactility.one](https://tactility.one)
 
 ---
