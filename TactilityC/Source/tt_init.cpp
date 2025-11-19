@@ -46,6 +46,8 @@
 #include <esp_log.h>
 #include <esp_random.h>
 #include <esp_sntp.h>
+#include <driver/usb_serial_jtag.h>
+#include <hal/usb_serial_jtag_ll.h>
 
 #include <lvgl.h>
 #include <vector>
@@ -133,6 +135,12 @@ const esp_elfsym main_symbols[] {
     ESP_ELFSYM_EXPORT(sprintf),
     ESP_ELFSYM_EXPORT(vsprintf),
     ESP_ELFSYM_EXPORT(vsnprintf),
+    ESP_ELFSYM_EXPORT(setvbuf),
+    ESP_ELFSYM_EXPORT(usb_serial_jtag_driver_install),
+    ESP_ELFSYM_EXPORT(usb_serial_jtag_driver_uninstall),
+    ESP_ELFSYM_EXPORT(usb_serial_jtag_read_bytes),
+    ESP_ELFSYM_EXPORT(usb_serial_jtag_write_bytes),
+    ESP_ELFSYM_EXPORT(usb_serial_jtag_ll_txfifo_flush),
     // cstring
     ESP_ELFSYM_EXPORT(strlen),
     ESP_ELFSYM_EXPORT(strcmp),
