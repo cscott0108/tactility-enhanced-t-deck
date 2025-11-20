@@ -17,9 +17,7 @@ This build enables **full T-Deck hardware utilization** that stock Tactility doe
 **GPS (GNSS)** - Built-in receiver supported
 **I2C** - Stock I2C bus support
 **Keyboard backlight control** - Brightness, timeout & wake-on-keypress
-
-#### 🚧 Partial / In Progress:
-**Trackball wake support** - Wakes display/backlight (navigation still in progress)
+**Trackball navigation** - Full UI navigation with visual focus indicators & wake-on-use
 
 #### 🚧 In Development:
 - **WiFi file server** - Upload apps and files wirelessly
@@ -113,7 +111,7 @@ python3 tactility.py build esp32s3
 * [x] SD card logging
 * [x] GPS (GNSS)
 * [x] Keyboard backlight (brightness + timeout + wake)
-* [ ] Trackball navigation (wake implemented; navigation WIP)
+* [x] Trackball navigation (encoder-based UI selection + wake)
 
 ### Phase 2: Connectivity 🚧
 - [ ] WiFi file server
@@ -144,7 +142,7 @@ Contributions are welcome! This project aims to make the T-Deck reach its full p
 |---------|----------------|-----------|
 | USB Bidirectional | ❌ | ✅ |
 | Keyboard Backlight | ❌ | ✅ |
-| Trackball Support | ❌ | 🚧 (wake only) |
+| Trackball Support | ❌ | ✅ |
 | 4G LTE | ❌ | 📋 |
 | GPS | ✅ | ✅ |
 | LoRa | ❌ | 📋 |
@@ -168,6 +166,7 @@ Legend: ✅ Working | 🚧 In Progress | 📋 Planned | ❌ Not Available
 
 **Stability & Boot Reliability**
 - Deferred I2C initialization (keyboard & trackball) resolves early heap corruption
+- Encoder-based trackball navigation with LVGL focus indicators for visual feedback
 - NTP time persisted/restored before SNTP sync
 
 **Developer Quality of Life**

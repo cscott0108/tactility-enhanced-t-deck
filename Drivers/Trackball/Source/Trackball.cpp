@@ -12,13 +12,13 @@ static bool g_enabled = true;
 
 // Track last GPIO states for edge detection
 static bool g_lastState[5] = {false, false, false, false, false};
-// Track cursor position
-static int16_t g_cursorX = 160;  // Center of typical 320px screen
-static int16_t g_cursorY = 120;  // Center of typical 240px screen
+// Encoder diff accumulator for navigation
+static int16_t g_encDiff = 0;
 
 static void read_cb(lv_indev_t* indev, lv_indev_data_t* data) {
     if (!g_initialized || !g_enabled) {
         data->state = LV_INDEV_STATE_RELEASED;
+        data->enc_diff = 0;
         return;
     }
     
@@ -30,59 +30,46 @@ static void read_cb(lv_indev_t* indev, lv_indev_data_t* data) {
         g_config.pinClick
     };
     
-    bool clickPressed = false;
-    
-    // Read GPIO states and detect changes
+    // Read GPIO states and detect changes (active low with pull-up)
+    bool currentStates[5];
     for (int i = 0; i < 5; i++) {
-        bool currentState = gpio_get_level(pins[i]) == 0; // Active low with pull-up
-        
-        if (currentState != g_lastState[i]) {
-            g_lastState[i] = currentState;
-            
-            if (currentState) { // Button pressed
-                switch (i) {
-                    case 0: // Right
-                        if (g_cursorX < (lv_disp_get_hor_res(nullptr) - 1)) {
-                            g_cursorX += g_config.movementStep;
-                        }
-                        break;
-                    case 1: // Up
-                        if (g_cursorY > 0) {
-                            g_cursorY -= g_config.movementStep;
-                        }
-                        break;
-                    case 2: // Left
-                        if (g_cursorX > 0) {
-                            g_cursorX -= g_config.movementStep;
-                        }
-                        break;
-                    case 3: // Down
-                        if (g_cursorY < (lv_disp_get_ver_res(nullptr) - 1)) {
-                            g_cursorY += g_config.movementStep;
-                        }
-                        break;
-                    case 4: // Click
-                        clickPressed = true;
-                        break;
-                }
-            }
-        }
+        currentStates[i] = gpio_get_level(pins[i]) == 0;
     }
     
-    // Clamp cursor to screen bounds
-    if (g_cursorX < 0) g_cursorX = 0;
-    if (g_cursorY < 0) g_cursorY = 0;
-    if (g_cursorX >= lv_disp_get_hor_res(nullptr)) {
-        g_cursorX = lv_disp_get_hor_res(nullptr) - 1;
+    // Process directional inputs as encoder steps
+    // Right/Down = positive diff (next item), Left/Up = negative diff (prev item)
+    int16_t diff = 0;
+    
+    // Right pressed (rising edge)
+    if (currentStates[0] && !g_lastState[0]) {
+        diff += 1;
     }
-    if (g_cursorY >= lv_disp_get_ver_res(nullptr)) {
-        g_cursorY = lv_disp_get_ver_res(nullptr) - 1;
+    // Up pressed (rising edge)
+    if (currentStates[1] && !g_lastState[1]) {
+        diff -= 1;
+    }
+    // Left pressed (rising edge)
+    if (currentStates[2] && !g_lastState[2]) {
+        diff -= 1;
+    }
+    // Down pressed (rising edge)
+    if (currentStates[3] && !g_lastState[3]) {
+        diff += 1;
     }
     
-    // Update LVGL data
-    data->point.x = g_cursorX;
-    data->point.y = g_cursorY;
-    data->state = clickPressed || g_lastState[4] ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+    // Update last states
+    for (int i = 0; i < 5; i++) {
+        g_lastState[i] = currentStates[i];
+    }
+    
+    // Update encoder diff and button state
+    data->enc_diff = diff;
+    data->state = currentStates[4] ? LV_INDEV_STATE_PRESSED : LV_INDEV_STATE_RELEASED;
+    
+    // Trigger activity for wake-on-trackball
+    if (diff != 0 || currentStates[4]) {
+        lv_disp_trig_activity(nullptr);
+    }
 }
 
 lv_indev_t* init(const TrackballConfig& config) {
@@ -119,16 +106,16 @@ lv_indev_t* init(const TrackballConfig& config) {
         g_lastState[i] = gpio_get_level(pins[i]) == 0;
     }
     
-    // Register as LVGL pointer input device
+    // Register as LVGL encoder input device for group navigation
     g_indev = lv_indev_create();
-    lv_indev_set_type(g_indev, LV_INDEV_TYPE_POINTER);
+    lv_indev_set_type(g_indev, LV_INDEV_TYPE_ENCODER);
     lv_indev_set_read_cb(g_indev, read_cb);
     
     if (g_indev) {
         g_initialized = true;
-        ESP_LOGI(TAG, "Trackball initialized (R:%d U:%d L:%d D:%d Click:%d, Step:%d)",
+        ESP_LOGI(TAG, "Trackball initialized as encoder (R:%d U:%d L:%d D:%d Click:%d)",
                  config.pinRight, config.pinUp, config.pinLeft, config.pinDown,
-                 config.pinClick, config.movementStep);
+                 config.pinClick);
         return g_indev;
     } else {
         ESP_LOGE(TAG, "Failed to register LVGL input device");
